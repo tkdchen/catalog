@@ -9,10 +9,18 @@ metadata:
   name: hello
 spec:
   description: Hello Tekton pipeline
+  params:
+  - name: friends
+    description: Say hello to these friends
+    default: ""
   steps:
   - name: say
     image: registry.access.redhat.com/ubi10/ubi-minimal@sha256:04140c8d78c6c6915b5c1fdad2f16d10eac3630c3339999ccdf659d8c903be50
+    env:
+    - name: FRIENDS
+      value: $(params.frields)
     script: |
       printf "Hello Tekton pipeline.\n"
+      printf "Hello friends %s\n" "$FRIENDS"
 
       cat /etc/os-release
